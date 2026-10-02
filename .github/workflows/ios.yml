@@ -5,12 +5,13 @@ on:
 
 jobs:
   build:
-    runs-on: macos-15
+    runs-on: macos-14
 
     steps:
       - uses: actions/checkout@v4
 
-      - uses: krdlab/setup-haxe@v1
+      - name: Setup Haxe
+        uses: xavier-fc/setup-haxe@v1
         with:
           haxe-version: 4.3.4
 
