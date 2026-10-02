@@ -1,0 +1,43 @@
+name: Build FNF iOS IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-13
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: krdlab/setup-haxe@v1
+        with:
+          haxe-version: 4.2.5
+
+      - name: Install Dependencies
+        run: |
+          haxelib setup ~/haxelib
+          haxelib install lime 7.9.0
+          haxelib install openfl 9.2.1
+          haxelib install flixel 4.11.0
+          haxelib install flixel-addons 2.11.0
+          haxelib install flixel-ui 2.4.0
+          haxelib install hscript
+          haxelib install hxcpp
+          haxelib run lime setup
+
+      - name: Build iOS
+        run: |
+          haxelib run lime build ios -nosign
+
+      - name: Make IPA
+        run: |
+          mkdir -p Payload
+          cp -r export/release/ios/build/Release-iphoneos/*.app Payload/
+          zip -r FNF-Game.ipa Payload
+
+      - name: Upload IPA
+        uses: actions/upload-artifact@v3
+        with:
+          name: FNF-Game-iOS
+          path: FNF-Game.ipa
