@@ -10,14 +10,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Haxe
-        uses: xavier-fc/setup-haxe@v1
-        with:
-          haxe-version: 4.3.4
+      - name: Install Haxe via Homebrew
+        run: |
+          brew install haxe
+          haxelib setup ~/haxelib
 
       - name: Install Dependencies
         run: |
-          haxelib setup ~/haxelib
           haxelib install lime 8.0.1
           haxelib install openfl 9.3.3
           haxelib install flixel 5.5.0
