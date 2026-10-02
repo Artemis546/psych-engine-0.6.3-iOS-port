@@ -15,7 +15,7 @@ jobs:
           brew install haxe
           haxelib setup ~/haxelib
 
-      - name: Install Dependencies
+      - name: Install Base Dependencies
         run: |
           haxelib install lime 8.0.1
           haxelib install openfl 9.3.3
@@ -25,6 +25,11 @@ jobs:
           haxelib install hscript
           haxelib install hxcpp
           haxelib run lime setup
+
+      - name: Install Psych Engine Specific Libraries
+        run: |
+          haxelib git linc_luajit https://github.com/nebulastella/linc_luajit
+          haxelib git hxDiscordRpc https://github.com/Aidan63/hxDiscordRpc
 
       - name: Build iOS
         run: |
